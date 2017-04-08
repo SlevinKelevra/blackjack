@@ -1,22 +1,23 @@
-require_relative 'game'
+class Player < User
 
-class Player
-
-  def initialize(name)
-    @name = name
-    @bank = 100
-    @cards = []
+  def process_move(command, croupier)
+    if can_pass?(command)
+      pass_move
+    elsif can_take_card?(command)
+      take_card(croupier.deal_one_card)
+    elsif can_open_cards?(command)
+      open_cards
+    end
   end
 
-  def beginning_game
-    count = 0
-    if count < 2
-      card = @@deck.random
-      @card << card
-      @@deck.delete(card)
-      count +=
-    end
-    bet(@bank)
+  protected
+
+  def can_pass?(command)
+    command == 'p' && !@passed_move
+  end
+
+  def can_take_card?(command)
+    command == 't' && !@took_card
   end
 
 end
